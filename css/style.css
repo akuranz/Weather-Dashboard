@@ -25,7 +25,7 @@ h2 {
 }
 
 .forecast {
-  background-color: blue;
+  background-color: #358df2;
   color: #fff;
   width: 11em;
 }
@@ -40,10 +40,11 @@ img {
 input {
   border: 1px solid #e4e4e4;
   border-radius: 3px;
+  padding-left: 5px;
 }
 
 #add-city {
-  background-color: blue;
+  background-color: #358df2;
   border: 1px solid #e4e4e4;
   border-radius: 5px;
 }

@@ -9,7 +9,7 @@ function displayCurrentWeatherInfo() {
   var myCity = $("#city-input").val() || $(this).attr("data-name");
   var queryURLcurrent =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
-    (myCity || "Denver") +
+    myCity +
     "&appid=" +
     APIKey;
 
@@ -85,9 +85,10 @@ function displayCurrentWeatherInfo() {
 
 function displayFiveDayWeatherForecast() {
   var myCity = $("#city-input").val() || $(this).attr("data-name");
+  var APIKey = "9696426ac9e59be5266033c2ff24bf66";
   var queryURLforecast =
     "http://api.openweathermap.org/data/2.5/forecast?q=" +
-    (myCity || "Denver") +
+    myCity +
     "&appid=" +
     APIKey;
 
@@ -95,6 +96,7 @@ function displayFiveDayWeatherForecast() {
     url: queryURLforecast,
     method: "GET"
   }).then(function(response) {
+    console.log(response);
     // var days = response.list;
     // var fiveDayList = 0;
 
@@ -121,7 +123,7 @@ function displayFiveDayWeatherForecast() {
     $("#date-day-1").text(moment(currentDate).format("MM/DD/YYYY"));
     $("#date-day-2").text(
       moment(currentDate)
-        .add((dayNumber += 1), "days")
+        .add(1, "days")
         .format("MM/DD/YYYY")
     );
     $("#date-day-3").text(
@@ -281,12 +283,14 @@ function recordSearchHistory() {
 
 $("#add-city").on("click", function(event) {
   event.preventDefault();
+  $("#weather-results").attr("style", "display: block");
+  $("#search-history-results").attr("style", "display: block");
   var city = $("#city-input")
     .val()
     .trim();
   var queryURLcurrent =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
-    (city || "Denver") +
+    city +
     "&appid=" +
     APIKey;
   $.ajax({
