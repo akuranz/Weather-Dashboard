@@ -13,9 +13,6 @@ function displayCurrentWeatherInfo() {
     "&appid=" +
     APIKey;
 
-  //   var uvlatitude;
-  //   var uvlongitude;
-
   $.ajax({
     url: queryURLcurrent,
     method: "GET"
@@ -34,17 +31,13 @@ function displayCurrentWeatherInfo() {
     $(".current-wind").text("Wind Speed: " + response.wind.speed + " MPH");
     $(".date1").text("(" + moment.unix(response.dt).format("MM/DD/YYYY") + ")");
 
-    // uvlatitude = response.coord.lat;
-    // console.log("lat", uvlatitude);
-    // uvlongitude = response.coord.lon;
-    // console.log("long", uvlongitude);
     var queryURLuvi =
       "http://api.openweathermap.org/data/2.5/uvi?appid=" +
       APIKey +
       "&lat=" +
-      response.coord.lat + // uvlatitude + // //lat
+      response.coord.lat +
       "&lon=" +
-      response.coord.lon; //uvlongitude; // //long
+      response.coord.lon;
 
     $.ajax({
       url: queryURLuvi,
@@ -53,11 +46,19 @@ function displayCurrentWeatherInfo() {
       .then(function(response) {
         console.log(queryURLuvi);
         console.log(response);
-        // $(".current-uv").text("UV Index: " + response.value);
-        var newIndex = $("<button>").text("UV Index: " + response.value);
+        var newIndex = [
+          $("<span>").text("UV Index: "),
+          $("<button>")
+            .text(response.value)
+            .attr("id", "uv-button")
+        ];
         $(".current-uv").empty();
         $(".current-uv").append(newIndex);
-        if (response.value <= 4) $("button").addClass("good-index");
+        if (response.value <= 3) {
+          $("#uv-button").addClass("btn btn-success");
+        } else if (response.value >= 7) {
+          $("#uv-button").addClass("btn btn-danger");
+        } else $("#uv-button").addClass("btn btn-warning");
       })
       .catch(function(error) {});
   });
@@ -82,7 +83,6 @@ function displayCurrentWeatherInfo() {
 
 function displayFiveDayWeatherForecast() {
   var myCity = $("#city-input").val() || $(this).attr("data-name");
-  // var APIKey = "9696426ac9e59be5266033c2ff24bf66";
   var queryURLforecast =
     "http://api.openweathermap.org/data/2.5/forecast?q=" +
     (myCity || "Denver") +

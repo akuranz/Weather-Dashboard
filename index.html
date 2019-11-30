@@ -32,10 +32,18 @@
         <h2>Search for a city:</h2>
         <div class="row mb-3">
           <form class="m-2" id="city-form">
-            <input type="text" id="city-input" /><br />
+            <input type="text" id="city-input" />
             <!-- Button triggers new city to be added to search -->
-            <input id="add-city" type="submit" value="searchCity" />
-          </form>         
+            <button id="add-city" type="submit" value="searchCity"><i class="fas fa-search"></i></button>
+          </form>     
+          
+          <!-- <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="City Name" aria-label="City's username" aria-describedby="basic-addon2" id="city-input">
+            <div class="input-group-append" id="add-city">
+              <span class="input-group-text" id="basic-addon2" ><i class="fas fa-search"></i></span>
+            </div>
+          </div> -->
+
         </div>
         
         <div class="card m-2" >
@@ -63,10 +71,10 @@
             </div>
           </div>
         </div>
-        <div class="row m-2">
+        <div class="row ml-2">
           <h2>5 Day Forecast</h2>
         </div>
-        <div class="row m-2 d-flex flex-row justify-content-between" id="forecast-row">
+        <div class="row d-flex flex-row justify-content-between" id="forecast-row" style="width: 90%;">
           <div class="col-md-2">
             <div class="card forecast">
               <div class="card-body">

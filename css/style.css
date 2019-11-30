@@ -14,16 +14,11 @@ h2 {
 .forecast {
   background-color: blue;
   color: #fff;
+  width: 11em;
 }
 
-.poor-index {
-  background-color: red;
-}
-
-.good-index {
-  background-color: green;
-}
-
-.fair-index {
-  background-color: yellow;
+img {
+  max-width: 65px;
+  max-height: 65px;
+  padding-bottom: 10px;
 }
