@@ -1,3 +1,16 @@
+body {
+  color: #63666a;
+  height: 100%;
+  line-height: 2;
+  background-color: #fff;
+  font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  margin: auto;
+  flex-direction: column;
+}
+
 h1 {
   background-color: #63666a;
   font-size: 60px;
@@ -21,4 +34,21 @@ img {
   max-width: 65px;
   max-height: 65px;
   padding-bottom: 10px;
+  margin-top: -10px;
+}
+
+input {
+  border: 1px solid #e4e4e4;
+  border-radius: 3px;
+}
+
+#add-city {
+  background-color: blue;
+  border: 1px solid #e4e4e4;
+  border-radius: 5px;
+}
+
+.fa-search {
+  color: #fff;
+  padding: 7px;
 }

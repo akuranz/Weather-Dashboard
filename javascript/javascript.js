@@ -20,6 +20,9 @@ function displayCurrentWeatherInfo() {
     console.log(queryURLcurrent);
     console.log(response);
     $(".main_card_city").text(response.name);
+    $(".date").html(
+      "&nbsp;(" + moment.unix(response.dt).format("MM/DD/YYYY") + `)`
+    );
     $(".weather-icon").attr(
       "src",
       "http://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png"
@@ -29,7 +32,6 @@ function displayCurrentWeatherInfo() {
     $(".current-temp").text("Temperature: " + fahrenheit + " F");
     $(".current-humid").text("Humidity: " + response.main.humidity + " %");
     $(".current-wind").text("Wind Speed: " + response.wind.speed + " MPH");
-    $(".date1").text("(" + moment.unix(response.dt).format("MM/DD/YYYY") + ")");
 
     var queryURLuvi =
       "http://api.openweathermap.org/data/2.5/uvi?appid=" +
