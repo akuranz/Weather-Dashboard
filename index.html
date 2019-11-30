@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Weather Dashboard</title>
+  </head>
+
+  <body>
+    <header class="jumbotron-fluid">
+      <h1>Weather Dashboard</h1>
+    </header>
+    <div class="row m-1">
+      <div class="col-md-3">
+          <div class="col-md">
+        <h2>Search for a city:</h2>
+        <div class="row mb-3">
+          <form class="m-2" id="city-form">
+            <input type="text" id="city-input" /><br />
+            <!-- Button triggers new city to be added to search -->
+            <input id="add-city" type="submit" value="searchCity" />
+          </form>         
+        </div>
+        
+        <div class="card m-2" >
+          <ul class="list-group list-group-flush"> 
+            <!-- Search History -->
+          </ul>
+        </div>
+    </div>
+    </div>
+      
+      <div class="col-md-9">
+        <div class="row">
+          <div class="card m-2" style="width: 90%;">
+            <div class="card-body">
+              <div class="row">
+                <h2 class="main_card_city"></h2>
+                <h2 class="date"></h2>
+                <h2 class="date1"></h2>
+                <img class="weather-icon" />
+              </div>
+              <div class="current-temp"></div>
+              <div class="current-humid"></div>
+              <div class="current-wind"></div>
+              <div class="current-uv" id="index-bg"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row m-2">
+          <h2>5 Day Forecast</h2>
+        </div>
+        <div class="row m-2 d-flex flex-row justify-content-between" id="forecast-row">
+          <div class="col-md-2">
+            <div class="card forecast">
+              <div class="card-body">
+                <h5 id="date-day-1"></h5>
+                <div><img id="icon-day-1"/></div>
+                <div id="temp-day-1"></div>
+                <div id="humid-day-1"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="card forecast">
+              <div class="card-body">
+                <h5 id="date-day-2">City name placeholder</h5>
+                <div><img id="icon-day-2"/></div>
+                <div id="temp-day-2"></div>
+                <div id="humid-day-2"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="card forecast">
+              <div class="card-body">
+                <h5 id="date-day-3">City name placeholder</h5>
+                <div><img id="icon-day-3"/></div>
+                <div id="temp-day-3"></div>
+                <div id="humid-day-3"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="card forecast">
+              <div class="card-body">
+                <h5 id="date-day-4">City name placeholder</h5>
+                <div><img id="icon-day-4"/></div>
+                <div id="temp-day-4"></div>
+                <div id="humid-day-4"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="card forecast">
+              <div class="card-body">
+                <h5 id="date-day-5">City name placeholder</h5>
+                <div><img id="icon-day-5"/></div>
+                <div id="temp-day-5"></div>
+                <div id="humid-day-5"></div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./javascript/moment.js"></script>
+    <script type="text/javascript" src="./javascript/javascript.js"></script>
+  </body>
+</html>

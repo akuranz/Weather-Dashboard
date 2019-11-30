@@ -1,0 +1,29 @@
+h1 {
+  background-color: #63666a;
+  font-size: 60px;
+  color: #fff;
+  padding: 25px;
+  text-align: center;
+}
+
+h2 {
+  color: #63666a;
+  font-size: 30px;
+}
+
+.forecast {
+  background-color: blue;
+  color: #fff;
+}
+
+.poor-index {
+  background-color: red;
+}
+
+.good-index {
+  background-color: green;
+}
+
+.fair-index {
+  background-color: yellow;
+}
