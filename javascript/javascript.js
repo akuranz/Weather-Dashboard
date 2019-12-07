@@ -2,11 +2,17 @@ var APIKey = "9696426ac9e59be5266033c2ff24bf66";
 var searchHistory = JSON.parse(localStorage.getItem("search-name"));
 if (!searchHistory) {
   searchHistory = [];
+  $("#search-history-results").css("display", "none");
+  $("#weather-results").css("display", "none");
 }
 console.log(searchHistory);
 
-function displayCurrentWeatherInfo() {
-  var myCity = $("#city-input").val() || $(this).attr("data-name");
+function displayWeather() {
+  var myCity = $(this).attr("data-name") || $("#city-input").val();
+  displayCurrentWeatherInfo(myCity);
+  displayFiveDayWeatherForecast(myCity);
+}
+function displayCurrentWeatherInfo(myCity) {
   var queryURLcurrent =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     (myCity || "Denver") +
@@ -66,8 +72,41 @@ function displayCurrentWeatherInfo() {
   });
 }
 
-function displayFiveDayWeatherForecast() {
-  var myCity = $("#city-input").val() || $(this).attr("data-name");
+function ForecastCard(data) {
+  console.log("data", data);
+  var currentDate = data.dt_txt;
+  var currentDateFormatted = moment(currentDate).format("MM/DD/YYYY");
+
+  var kelvinForecast = data.main.temp;
+  var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
+  var avgHumidity = data.main.humidity;
+  var icon = $("<img>").attr(
+    "src",
+    "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
+  );
+  console.log(icon[0]);
+  var iconImage = icon[0].outerHTML;
+  var obj = {
+    date: currentDateFormatted,
+    img: iconImage,
+    temp: "Temperature: " + fahrenheitForecast + " &deg;F",
+    humidity: "Humidity: " + avgHumidity + "%"
+  };
+
+  console.log("Current Date:", currentDate);
+  console.log("Date of Index:", moment(currentDate).format("MM/DD/YYYY"));
+
+  return `<div class="card forecast">
+    <div class="card-body">
+      <h5>${obj.date}</h5>
+      <div>${obj.img}</div>
+      <div> ${obj.temp} </div>
+      <div>${obj.humidity}</div>
+    </div>
+  </div>`;
+}
+
+function displayFiveDayWeatherForecast(myCity) {
   var queryURLforecast =
     "https://api.openweathermap.org/data/2.5/forecast?q=" +
     (myCity || "Denver") +
@@ -78,212 +117,177 @@ function displayFiveDayWeatherForecast() {
     url: queryURLforecast,
     method: "GET"
   }).then(function(response) {
-    console.log(response);
+    // console.log(response);
     //Not Working
-    // var days = response.list;
-    // var fiveDayList = 0;
 
-    // for (var i = 0; i < days.length && fiveDayList < 5; i++) {
-    //   console.log(fiveDayList);
+    var days = response.list;
+    var fiveDayList = 0;
 
-    //   var timeString = days[i].dt_txt.split(" ")[1].split(":")[0];
-    //   console.log(timeString);
+    $("#forecast-row").empty();
+    for (var i = 0; i < fiveDayList < 5; i++) {
+      //console.log(fiveDayList);
 
-    //   if (timeString === "18") {
-    //     fiveDayList++;
-    //     console.log(fiveDayList);
+      //console.log("days", days[i].dt_txt);
+      var timeString = response.list[i].dt_txt.split(" ")[1].split(":")[0];
+      //console.log("Timestring", timeString);
 
-    //     var currentDate = days[i].dt_txt;
-    //     var currentDateFormatted = moment(currentDate).format("MM/DD/YYYY");
-    //     console.log("Current Date:", currentDate);
-    //     console.log("Date of Index:", moment(currentDate).format("MM/DD/YYYY"));
+      if (timeString === "18") {
+        fiveDayList++;
+        //console.log(fiveDayList);
 
-    //     var kelvinForecast = days[i].main.temp;
-    //     var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(
-    //       0
-    //     );
+        var div = $("<div class='col-md-2'>").html(ForecastCard(days[i]));
 
-    //     var avgHumidity = days[i].main.humidity;
+        $("#forecast-row").append(div);
+      }
 
-    //     var div = $("<div class='col-md-2'>").html(ForecastCard(days[i]));
-    //     $("#forecast-row").append(div);
+      // //Forecast Dates
 
-    //     var icon = $("<img>").attr(
-    //       "src",
-    //       "http://openweathermap.org/img/wn/" +
-    //         days[i].weather[0].icon +
-    //         "@2x.png"
-    //     );
-    //     console.log(icon[0]);
+      // var currentDate = response.list[0].dt_txt;
+      // $("#date-day-1").text(moment(currentDate).format("MM/DD/YYYY"));
+      // $("#date-day-2").text(
+      //   moment(currentDate)
+      //     .add(1, "days")
+      //     .format("MM/DD/YYYY")
+      // );
+      // $("#date-day-3").text(
+      //   moment(currentDate)
+      //     .add(2, "days")
+      //     .format("MM/DD/YYYY")
+      // );
+      // $("#date-day-4").text(
+      //   moment(currentDate)
+      //     .add(3, "days")
+      //     .format("MM/DD/YYYY")
+      // );
+      // $("#date-day-5").text(
+      //   moment(currentDate)
+      //     .add(4, "days")
+      //     .format("MM/DD/YYYY")
+      // );
 
-    //     var iconImage = icon[0];
+      // console.log(
+      //   "Date of Index + 1:",
+      //   moment(currentDate)
+      //     .add(1, "days")
+      //     .format("MM/DD/YYYY")
+      // );
 
-    //     function ForecastCard() {
-    //       var obj = {
-    //         date: currentDateFormatted,
-    //         img: iconImage,
-    //         temp: "Temperature: " + fahrenheitForecast + " &deg;F",
-    //         humidity: "Humidity: " + avgHumidity + "%"
-    //       };
+      // //Forecast Icons
+      // $("#icon-day-1").attr(
+      //   "src",
+      //   "http://openweathermap.org/img/wn/" +
+      //     response.list[6].weather[0].icon +
+      //     "@2x.png"
+      // );
+      // $("#icon-day-2").attr(
+      //   "src",
+      //   "http://openweathermap.org/img/wn/" +
+      //     response.list[14].weather[0].icon +
+      //     "@2x.png"
+      // );
+      // $("#icon-day-3").attr(
+      //   "src",
+      //   "http://openweathermap.org/img/wn/" +
+      //     response.list[22].weather[0].icon +
+      //     "@2x.png"
+      // );
+      // $("#icon-day-4").attr(
+      //   "src",
+      //   "http://openweathermap.org/img/wn/" +
+      //     response.list[30].weather[0].icon +
+      //     "@2x.png"
+      // );
+      // $("#icon-day-5").attr(
+      //   "src",
+      //   "http://openweathermap.org/img/wn/" +
+      //     response.list[38].weather[0].icon +
+      //     "@2x.png"
+      // );
 
-    //       return `<div class="card forecast">
-    //         <div class="card-body">
-    //           <h5>${obj.date}</h5>
-    //           <div>${obj.img}</div>
-    //           <div> ${obj.temp} </div>
-    //           <div>${obj.humidity}</div>
-    //         </div>
-    //       </div>`;
-    //     }
-    //   }
+      // // for (var i = 0; i < response.list.length; i++) {
+      // //   console.log("noon", response.list[i].dt_txt.includes("12:00:00"));
+      // //   var noonIndex = response.list[i].dt_text
+      // //     .includes("12:00:00")
+      // //     .parent()
+      // //     .index();
+      // //   console.log(noonIndex);
+      // // }
 
-    //Forecast Dates
+      // // for (let key of response.list) {
+      // //   console.log("date", $(this).dt_txt);
+      // // }
 
-    var currentDate = response.list[0].dt_txt;
-    $("#date-day-1").text(moment(currentDate).format("MM/DD/YYYY"));
-    $("#date-day-2").text(
-      moment(currentDate)
-        .add(1, "days")
-        .format("MM/DD/YYYY")
-    );
-    $("#date-day-3").text(
-      moment(currentDate)
-        .add(2, "days")
-        .format("MM/DD/YYYY")
-    );
-    $("#date-day-4").text(
-      moment(currentDate)
-        .add(3, "days")
-        .format("MM/DD/YYYY")
-    );
-    $("#date-day-5").text(
-      moment(currentDate)
-        .add(4, "days")
-        .format("MM/DD/YYYY")
-    );
+      // // Forecast temp
+      // var kelvinForecast =
+      //   (response.list[5].main.temp +
+      //     response.list[6].main.temp +
+      //     response.list[7].main.temp) /
+      //   3;
+      // var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
+      // $("#temp-day-1").text("Temperature: " + fahrenheitForecast + " F");
+      // var kelvinForecast =
+      //   (response.list[13].main.temp +
+      //     response.list[14].main.temp +
+      //     response.list[15].main.temp) /
+      //   3;
+      // var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
+      // $("#temp-day-2").text("Temperature: " + fahrenheitForecast + " F");
+      // var kelvinForecast =
+      //   (response.list[21].main.temp +
+      //     response.list[22].main.temp +
+      //     response.list[23].main.temp) /
+      //   3;
+      // var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
+      // $("#temp-day-3").text("Temperature: " + fahrenheitForecast + " F");
+      // var kelvinForecast =
+      //   (response.list[29].main.temp +
+      //     response.list[30].main.temp +
+      //     response.list[31].main.temp) /
+      //   3;
 
-    console.log(
-      "Date of Index + 1:",
-      moment(currentDate)
-        .add(1, "days")
-        .format("MM/DD/YYYY")
-    );
+      // var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
+      // $("#temp-day-4").text("Temperature: " + fahrenheitForecast + " F");
+      // var kelvinForecast =
+      //   (response.list[37].main.temp +
+      //     response.list[38].main.temp +
+      //     response.list[39].main.temp) /
+      //   3;
 
-    //Forecast Icons
-    $("#icon-day-1").attr(
-      "src",
-      "http://openweathermap.org/img/wn/" +
-        response.list[6].weather[0].icon +
-        "@2x.png"
-    );
-    $("#icon-day-2").attr(
-      "src",
-      "http://openweathermap.org/img/wn/" +
-        response.list[14].weather[0].icon +
-        "@2x.png"
-    );
-    $("#icon-day-3").attr(
-      "src",
-      "http://openweathermap.org/img/wn/" +
-        response.list[22].weather[0].icon +
-        "@2x.png"
-    );
-    $("#icon-day-4").attr(
-      "src",
-      "http://openweathermap.org/img/wn/" +
-        response.list[30].weather[0].icon +
-        "@2x.png"
-    );
-    $("#icon-day-5").attr(
-      "src",
-      "http://openweathermap.org/img/wn/" +
-        response.list[38].weather[0].icon +
-        "@2x.png"
-    );
+      // var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
+      // $("#temp-day-5").text("Temperature: " + fahrenheitForecast + " F");
 
-    // for (var i = 0; i < response.list.length; i++) {
-    //   console.log("noon", response.list[i].dt_txt.includes("12:00:00"));
-    //   var noonIndex = response.list[i].dt_text
-    //     .includes("12:00:00")
-    //     .parent()
-    //     .index();
-    //   console.log(noonIndex);
-    // }
-
-    // for (let key of response.list) {
-    //   console.log("date", $(this).dt_txt);
-    // }
-
-    // Forecast temp
-    var kelvinForecast =
-      (response.list[5].main.temp +
-        response.list[6].main.temp +
-        response.list[7].main.temp) /
-      3;
-    var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
-    $("#temp-day-1").text("Temperature: " + fahrenheitForecast + " F");
-    var kelvinForecast =
-      (response.list[13].main.temp +
-        response.list[14].main.temp +
-        response.list[15].main.temp) /
-      3;
-    var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
-    $("#temp-day-2").text("Temperature: " + fahrenheitForecast + " F");
-    var kelvinForecast =
-      (response.list[21].main.temp +
-        response.list[22].main.temp +
-        response.list[23].main.temp) /
-      3;
-    var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
-    $("#temp-day-3").text("Temperature: " + fahrenheitForecast + " F");
-    var kelvinForecast =
-      (response.list[29].main.temp +
-        response.list[30].main.temp +
-        response.list[31].main.temp) /
-      3;
-
-    var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
-    $("#temp-day-4").text("Temperature: " + fahrenheitForecast + " F");
-    var kelvinForecast =
-      (response.list[37].main.temp +
-        response.list[38].main.temp +
-        response.list[39].main.temp) /
-      3;
-
-    var fahrenheitForecast = ((kelvinForecast - 273.15) * 1.8 + 32).toFixed(0);
-    $("#temp-day-5").text("Temperature: " + fahrenheitForecast + " F");
-
-    //Forcast Humidity
-    var avgHumidity =
-      (response.list[5].main.humidity +
-        response.list[6].main.humidity +
-        response.list[7].main.humidity) /
-      3;
-    $("#humid-day-1").text("Humidity: " + avgHumidity.toFixed(0) + " %");
-    var avgHumidity =
-      (response.list[13].main.humidity +
-        response.list[14].main.humidity +
-        response.list[15].main.humidity) /
-      3;
-    $("#humid-day-2").text("Humidity: " + avgHumidity.toFixed(0) + " %");
-    var avgHumidity =
-      (response.list[21].main.humidity +
-        response.list[22].main.humidity +
-        response.list[23].main.humidity) /
-      3;
-    $("#humid-day-3").text("Humidity: " + avgHumidity.toFixed(0) + " %");
-    var avgHumidity =
-      (response.list[29].main.humidity +
-        response.list[30].main.humidity +
-        response.list[31].main.humidity) /
-      3;
-    $("#humid-day-4").text("Humidity: " + avgHumidity.toFixed(0) + " %");
-    var avgHumidity =
-      (response.list[37].main.humidity +
-        response.list[38].main.humidity +
-        response.list[39].main.humidity) /
-      3;
-    $("#humid-day-5").text("Humidity: " + avgHumidity.toFixed(0) + " %");
+      // //Forcast Humidity
+      // var avgHumidity =
+      //   (response.list[5].main.humidity +
+      //     response.list[6].main.humidity +
+      //     response.list[7].main.humidity) /
+      //   3;
+      // $("#humid-day-1").text("Humidity: " + avgHumidity.toFixed(0) + " %");
+      // var avgHumidity =
+      //   (response.list[13].main.humidity +
+      //     response.list[14].main.humidity +
+      //     response.list[15].main.humidity) /
+      //   3;
+      // $("#humid-day-2").text("Humidity: " + avgHumidity.toFixed(0) + " %");
+      // var avgHumidity =
+      //   (response.list[21].main.humidity +
+      //     response.list[22].main.humidity +
+      //     response.list[23].main.humidity) /
+      //   3;
+      // $("#humid-day-3").text("Humidity: " + avgHumidity.toFixed(0) + " %");
+      // var avgHumidity =
+      //   (response.list[29].main.humidity +
+      //     response.list[30].main.humidity +
+      //     response.list[31].main.humidity) /
+      //   3;
+      // $("#humid-day-4").text("Humidity: " + avgHumidity.toFixed(0) + " %");
+      // var avgHumidity =
+      //   (response.list[37].main.humidity +
+      //     response.list[38].main.humidity +
+      //     response.list[39].main.humidity) /
+      //   3;
+      // $("#humid-day-5").text("Humidity: " + avgHumidity.toFixed(0) + " %");
+    }
   });
 }
 
@@ -297,8 +301,7 @@ function recordSearchHistory() {
     search.text(searchHistory[i]);
     $(".list-group").append(search);
   }
-  displayCurrentWeatherInfo();
-  displayFiveDayWeatherForecast();
+  displayWeather();
 }
 
 $("#add-city").on("click", function(event) {
@@ -331,7 +334,6 @@ $("#add-city").on("click", function(event) {
     });
 });
 
-$(document).on("click", ".city", displayCurrentWeatherInfo);
-$(document).on("click", ".city", displayFiveDayWeatherForecast);
+$(document).on("click", ".city", displayWeather);
 
 recordSearchHistory();
