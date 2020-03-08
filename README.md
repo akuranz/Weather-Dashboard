@@ -6,7 +6,7 @@ https://akuranz.github.io/WeatherDashboard/
 
 ## Description
 
-Weather Dashboard based on city search using OpenWeather Map APIs. Current weaather forcast displays city name, date, weather condition icon, temperature, humidity, wind speed, and UV index. 5-day weather forecast displays date, weather condition icon, tempurature and humidity.
+Weather Dashboard based on city search using OpenWeather Map APIs. Current weather forecast displays city name, date, weather condition icon, temperature, humidity, wind speed, and UV index. 5-day weather forecast displays date, weather condition icon, temperature and humidity.
 
 ## Instructions for User
 
