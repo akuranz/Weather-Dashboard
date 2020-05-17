@@ -14,20 +14,23 @@ body {
 h1 {
   background-color: #ffffff80;
   font-size: 60px;
-  color: #63666a;
+  color: #ffffff;
+  text-shadow: 2px 2px #63666a;
   padding: 25px;
   text-align: center;
 }
 
 h2 {
-  color: #63666a;
+  color: #ffffff;
+  text-shadow: 2px 2px #63666a;
   font-size: 30px;
 }
 
 .forecast {
-  background-color: #358df2;
+  background-color: #3c70c2;
   color: #fff;
   width: 11em;
+  border: #ffffff solid 3px;
 }
 
 img {
