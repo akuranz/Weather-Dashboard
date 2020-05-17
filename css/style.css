@@ -1,8 +1,8 @@
 body {
-  color: #63666a;
+  /* color: #63666a; */
   height: 100%;
   line-height: 2;
-  background-color: #fff;
+  background-image: url(../assets/Images/michal-mancewicz-R9L7ukhBSgs-unsplash.jpg);
   font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
   display: flex;
   min-height: 100vh;
@@ -12,7 +12,7 @@ body {
 }
 
 h1 {
-  background-color: #63666a;
+  background-color: #63666a80;
   font-size: 60px;
   color: #fff;
   padding: 25px;
